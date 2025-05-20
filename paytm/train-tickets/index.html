@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Ticket Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      display: none;
+    }
+
+    .success {
+      color: green;
+      font-size: 16px;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Train Ticket Booking</h1>
+
+  <div class="container">
+    <form id="bookingForm">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+        <span class="error" id="nameError">Name is required.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="from">From</label>
+        <input type="text" id="from" name="from" required placeholder="Enter departure station">
+        <span class="error" id="fromError">Departure station is required.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="to">To</label>
+        <input type="text" id="to" name="to" required placeholder="Enter destination station">
+        <span class="error" id="toError">Destination station is required.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Travel Date</label>
+        <input type="date" id="date" name="date" required>
+        <span class="error" id="dateError">Travel date is required.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="passengers">Number of Passengers</label>
+        <input type="number" id="passengers" name="passengers" required placeholder="Enter number of passengers">
+        <span class="error" id="passengersError">Number of passengers is required.</span>
+      </div>
+
+      <button type="submit">Book Ticket</button>
+    </form>
+
+    <div class="success" id="successMessage">
+      <p>Your ticket has been booked successfully!</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      let valid = true;
+
+      // Validate Name
+      const name = document.getElementById('name').value;
+      if (!name) {
+        document.getElementById('nameError').style.display = 'inline';
+        valid = false;
+      } else {
+        document.getElementById('nameError').style.display = 'none';
+      }
+
+      // Validate From station
+      const from = document.getElementById('from').value;
+      if (!from) {
+        document.getElementById('fromError').style.display = 'inline';
+        valid = false;
+      } else {
+        document.getElementById('fromError').style.display = 'none';
+      }
+
+      // Validate To station
+      const to = document.getElementById('to').value;
+      if (!to) {
+        document.getElementById('toError').style.display = 'inline';
+        valid = false;
+      } else {
+        document.getElementById('toError').style.display = 'none';
+      }
+
+      // Validate Date
+      const date = document.getElementById('date').value;
+      if (!date) {
+        document.getElementById('dateError').style.display = 'inline';
+        valid = false;
+      } else {
+        document.getElementById('dateError').style.display = 'none';
+      }
+
+      // Validate Passengers
+      const passengers = document.getElementById('passengers').value;
+      if (!passengers) {
+        document.getElementById('passengersError').style.display = 'inline';
+        valid = false;
+      } else {
+        document.getElementById('passengersError').style.display = 'none';
+      }
+
+      if (valid) {
+        document.getElementById('successMessage').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('successMessage').style.display = 'none';
+          document.getElementById('bookingForm').reset();
+        }, 3000);
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Ticket Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Book Your Movie Tickets</h1>
+
+        <div class="movie-selection">
+            <label for="movie">Choose a Movie:</label>
+            <select id="movie">
+                <option value="Avengers">Avengers</option>
+                <option value="Spider-Man">Spider-Man</option>
+                <option value="Batman">Batman</option>
+                <option value="Superman">Superman</option>
+            </select>
+        </div>
+
+        <div class="date-selection">
+            <label for="date">Choose a Date:</label>
+            <input type="date" id="date" required>
+        </div>
+
+        <div class="time-selection">
+            <label for="time">Choose a Time:</label>
+            <select id="time">
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="6:00 PM">6:00 PM</option>
+                <option value="9:00 PM">9:00 PM</option>
+            </select>
+        </div>
+
+        <div class="seats-selection">
+            <label for="seats">Number of Seats:</label>
+            <input type="number" id="seats" min="1" max="10" value="1">
+        </div>
+
+        <button id="book-btn">Book Tickets</button>
+
+        <div class="booking-summary" id="booking-summary">
+            <h2>Booking Summary</h2>
+            <p id="movie-name"></p>
+            <p id="movie-date"></p>
+            <p id="movie-time"></p>
+            <p id="seats-count"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
