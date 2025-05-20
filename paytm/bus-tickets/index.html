@@ -6,79 +6,111 @@
     <title>Bus Ticket Booking</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f2ff;
             margin: 0;
             padding: 20px;
         }
         .container {
             max-width: 600px;
             margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         h1 {
             text-align: center;
+            color: #333;
         }
         label {
             display: block;
-            margin: 10px 0 5px;
+            margin: 15px 0 5px;
+            font-weight: bold;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         button {
-            width: 100%;
+            width: 48%;
             padding: 10px;
-            background-color: #28a745;
-            color: white;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
+            color: white;
+            font-weight: bold;
         }
-        button:hover {
+        .btn-book {
+            background-color: #28a745;
+        }
+        .btn-book:hover {
             background-color: #218838;
         }
-        .hidden {
-            display: none;
+        .btn-reset {
+            background-color: #dc3545;
+        }
+        .btn-reset:hover {
+            background-color: #c82333;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
         }
         #confirmation {
             margin-top: 20px;
-            padding: 10px;
+            padding: 12px;
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
             border-radius: 5px;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Bus Ticket Booking Service</h1>
+        <h1>Bus Ticket Booking</h1>
         <form id="bookingForm">
             <label for="from">From:</label>
-            <input type="text" id="from" required>
+            <select id="from" required>
+                <option value="">Select city</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Mumbai">Mumbai</option>
+            </select>
 
             <label for="to">To:</label>
-            <input type="text" id="to" required>
+            <select id="to" required>
+                <option value="">Select city</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Mumbai">Mumbai</option>
+            </select>
 
             <label for="date">Date:</label>
-            <input type="date" id="date" required>
+            <input type="date" id="date" required min="">
 
             <label for="tickets">Number of Tickets:</label>
             <input type="number" id="tickets" min="1" required>
 
-            <button type="submit">Book Tickets</button>
+            <div class="btn-group">
+                <button type="submit" class="btn-book">Book Tickets</button>
+                <button type="reset" class="btn-reset">Reset</button>
+            </div>
         </form>
-        <div id="confirmation" class="hidden"></div>
+        <div id="confirmation"></div>
     </div>
+
     <script>
+        // Set min date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', today);
+
         document.getElementById('bookingForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -86,11 +118,22 @@
             const to = document.getElementById('to').value;
             const date = document.getElementById('date').value;
             const tickets = document.getElementById('tickets').value;
-
-            const confirmationMessage = `You have successfully booked ${tickets} ticket(s) from ${from} to ${to} on ${date}.`;
             const confirmationDiv = document.getElementById('confirmation');
-            confirmationDiv.textContent = confirmationMessage;
-            confirmationDiv.classList.remove('hidden');
+
+            if (from === to) {
+                confirmationDiv.textContent = 'From and To locations cannot be the same.';
+                confirmationDiv.style.backgroundColor = '#f8d7da';
+                confirmationDiv.style.color = '#721c24';
+                confirmationDiv.style.border = '1px solid #f5c6cb';
+                confirmationDiv.style.display = 'block';
+                return;
+            }
+
+            confirmationDiv.textContent = `You have successfully booked ${tickets} ticket(s) from ${from} to ${to} on ${date}.`;
+            confirmationDiv.style.backgroundColor = '#d4edda';
+            confirmationDiv.style.color = '#155724';
+            confirmationDiv.style.border = '1px solid #c3e6cb';
+            confirmationDiv.style.display = 'block';
         });
     </script>
 </body>
