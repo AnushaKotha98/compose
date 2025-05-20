@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Train Ticket Booking</title>
   <style>
     body {
@@ -63,6 +63,7 @@
       color: red;
       font-size: 14px;
       display: none;
+      transition: all 0.3s ease-in-out;
     }
 
     .success {
@@ -70,6 +71,7 @@
       font-size: 16px;
       text-align: center;
       display: none;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -81,40 +83,50 @@
     <form id="bookingForm">
       <div class="form-group">
         <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+        <input type="text" id="name" name="name" required placeholder="Enter your full name" />
         <span class="error" id="nameError">Name is required.</span>
       </div>
 
       <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email" />
+        <span class="error" id="emailError">Valid email is required.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" />
+        <span class="error" id="phoneError">Phone number is required.</span>
+      </div>
+
+      <div class="form-group">
         <label for="from">From</label>
-        <input type="text" id="from" name="from" required placeholder="Enter departure station">
+        <input type="text" id="from" name="from" required placeholder="Enter departure station" />
         <span class="error" id="fromError">Departure station is required.</span>
       </div>
 
       <div class="form-group">
         <label for="to">To</label>
-        <input type="text" id="to" name="to" required placeholder="Enter destination station">
+        <input type="text" id="to" name="to" required placeholder="Enter destination station" />
         <span class="error" id="toError">Destination station is required.</span>
       </div>
 
       <div class="form-group">
         <label for="date">Travel Date</label>
-        <input type="date" id="date" name="date" required>
-        <span class="error" id="dateError">Travel date is required.</span>
+        <input type="date" id="date" name="date" required />
+        <span class="error" id="dateError">Please choose a valid future date.</span>
       </div>
 
       <div class="form-group">
         <label for="passengers">Number of Passengers</label>
-        <input type="number" id="passengers" name="passengers" required placeholder="Enter number of passengers">
-        <span class="error" id="passengersError">Number of passengers is required.</span>
+        <input type="number" id="passengers" name="passengers" required min="1" placeholder="Enter number of passengers" />
+        <span class="error" id="passengersError">Please enter at least 1 passenger.</span>
       </div>
 
       <button type="submit">Book Ticket</button>
     </form>
 
-    <div class="success" id="successMessage">
-      <p>Your ticket has been booked successfully!</p>
-    </div>
+    <div class="success" id="successMessage"></div>
   </div>
 
   <script>
@@ -123,60 +135,44 @@
 
       let valid = true;
 
-      // Validate Name
-      const name = document.getElementById('name').value;
-      if (!name) {
-        document.getElementById('nameError').style.display = 'inline';
-        valid = false;
-      } else {
-        document.getElementById('nameError').style.display = 'none';
-      }
-
-      // Validate From station
-      const from = document.getElementById('from').value;
-      if (!from) {
-        document.getElementById('fromError').style.display = 'inline';
-        valid = false;
-      } else {
-        document.getElementById('fromError').style.display = 'none';
-      }
-
-      // Validate To station
-      const to = document.getElementById('to').value;
-      if (!to) {
-        document.getElementById('toError').style.display = 'inline';
-        valid = false;
-      } else {
-        document.getElementById('toError').style.display = 'none';
-      }
-
-      // Validate Date
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const from = document.getElementById('from').value.trim();
+      const to = document.getElementById('to').value.trim();
       const date = document.getElementById('date').value;
-      if (!date) {
-        document.getElementById('dateError').style.display = 'inline';
-        valid = false;
-      } else {
-        document.getElementById('dateError').style.display = 'none';
+      const passengers = document.getElementById('passengers').value;
+
+      // Helper function to toggle error
+      function showError(id, condition) {
+        const errorElem = document.getElementById(id);
+        if (condition) {
+          errorElem.style.display = 'inline';
+          valid = false;
+        } else {
+          errorElem.style.display = 'none';
+        }
       }
 
-      // Validate Passengers
-      const passengers = document.getElementById('passengers').value;
-      if (!passengers) {
-        document.getElementById('passengersError').style.display = 'inline';
-        valid = false;
-      } else {
-        document.getElementById('passengersError').style.display = 'none';
-      }
+      showError('nameError', !name);
+      showError('emailError', !email || !/\S+@\S+\.\S+/.test(email));
+      showError('phoneError', !phone || phone.length < 10);
+      showError('fromError', !from);
+      showError('toError', !to);
+      showError('dateError', !date || new Date(date) < new Date());
+      showError('passengersError', !passengers || passengers <= 0);
 
       if (valid) {
+        document.getElementById('successMessage').textContent =
+          `Thank you, ${name}! Your ticket has been booked successfully.`;
         document.getElementById('successMessage').style.display = 'block';
+
         setTimeout(() => {
           document.getElementById('successMessage').style.display = 'none';
           document.getElementById('bookingForm').reset();
-        }, 3000);
+        }, 4000);
       }
     });
   </script>
-
 </body>
 </html>
